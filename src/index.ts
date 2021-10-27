@@ -1,17 +1,10 @@
 import * as THREE from "three";
-import {
-    DirectionalLight,
-    Mesh,
-    MeshBasicMaterial,
-    PerspectiveCamera,
-    Scene,
-    SphereBufferGeometry,
-    Vector3
-} from "three";
+import {DirectionalLight, PerspectiveCamera, Scene, Vector3} from "three";
 import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 import {GUI} from "dat.gui";
 import {createReferenceFrame} from "./createReferenceFrame";
 import {RenderHandler} from "./renderHandler";
+import {SphereObject} from "./sphereObject";
 
 
 const camera = new PerspectiveCamera(40, 2, 0.1, 2000);
@@ -26,27 +19,6 @@ camera.position.set(500, 500, 500);
 camera.lookAt(0, 0, 0);
 
 const scene = new Scene();
-
-class SphereObject implements Renderable{
-    private _sphere = new Mesh(new SphereBufferGeometry(20, 1000), new MeshBasicMaterial({color: 0x449900}));
-    private _velocity = new Vector3(.1,.1,.1);
-
-    setVelocity(vector3 :Vector3){
-        this._velocity.set(vector3.x,vector3.y,vector3.z)
-    }
-
-    update() {
-        this._sphere.position.add(this._velocity);
-    }
-
-
-
-    getSphere(){
-        return this._sphere;
-    }
-
-
-}
 
 const sphereObject = new SphereObject();
 
@@ -73,10 +45,6 @@ window.velocity = velocity
 
 //@ts-ignore
 window.THREE = THREE
-
-export interface Renderable{
-    update():void
-}
 
 
 

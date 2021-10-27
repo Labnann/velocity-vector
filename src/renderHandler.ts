@@ -1,5 +1,5 @@
 import {PerspectiveCamera, Renderer, Scene, WebGLRenderer} from "three";
-import {Renderable} from "./index";
+import {Renderable} from "./renderable";
 
 export class RenderHandler {
 
