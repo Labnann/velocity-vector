@@ -94,31 +94,31 @@ interface Renderable{
 
 class RenderHandler{
 
-    private canvas = document.querySelector("#c") as HTMLCanvasElement;
-    private renderer = new WebGLRenderer({canvas:this.canvas});
-    private scene;
-    private camera;
+    private _canvas = document.querySelector("#c") as HTMLCanvasElement;
+    private _renderer = new WebGLRenderer({canvas:this._canvas});
+    private readonly _scene;
+    private readonly _camera;
 
     private _renderables : Renderable[] = []
 
     constructor(scene: Scene, camera: PerspectiveCamera) {
-        this.scene = scene;
-        this.camera = camera;
+        this._scene = scene;
+        this._camera = camera;
     }
 
 
      render =()=> {
 
 
-        if (resizeRendererToDisplaySize(this.renderer)) {
-            const canvas = this.renderer.domElement;
-            this.camera.aspect = canvas.clientWidth / canvas.clientHeight;
-            this.camera.updateProjectionMatrix();
+        if (resizeRendererToDisplaySize(this._renderer)) {
+            const canvas = this._renderer.domElement;
+            this._camera.aspect = canvas.clientWidth / canvas.clientHeight;
+            this._camera.updateProjectionMatrix();
         }
 
 
 
-        this.renderer.render(this.scene, this.camera);
+        this._renderer.render(this._scene, this._camera);
         this._updateRenderables();
 
         requestAnimationFrame(this.render);
