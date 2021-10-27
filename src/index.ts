@@ -99,6 +99,8 @@ class RenderHandler{
     private scene;
     private camera;
 
+    private _renderables : Renderable[] = []
+
     constructor(scene: Scene, camera: PerspectiveCamera) {
         this.scene = scene;
         this.camera = camera;
@@ -114,17 +116,30 @@ class RenderHandler{
             this.camera.updateProjectionMatrix();
         }
 
-        sphere.position.add(velocity)
+
 
         this.renderer.render(this.scene, this.camera);
+        this._updateRenderables();
 
         requestAnimationFrame(this.render);
+    }
+
+    private _updateRenderables(){
+        this._renderables.forEach(renderable =>{
+            renderable.update()
+        })
+    }
+
+    public addRenderable(renderable: Renderable){
+        this._renderables.push(renderable);
     }
 
 
 }
 
 const renderHandler = new RenderHandler(scene,camera);
+renderHandler.addRenderable(sphereObject);
+
 renderHandler.render()
 
 
