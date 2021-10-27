@@ -28,7 +28,30 @@ camera.lookAt(0, 0, 0);
 
 const scene = new Scene();
 
-const sphere = new Mesh(new SphereBufferGeometry(20, 1000), new MeshBasicMaterial({color: 0x449900}));
+class SphereObject implements Renderable{
+    private _sphere = new Mesh(new SphereBufferGeometry(20, 1000), new MeshBasicMaterial({color: 0x449900}));
+    private _velocity = new Vector3(.1,.1,.1);
+
+    setVelocity(vector3 :Vector3){
+        this._velocity.set(vector3.x,vector3.y,vector3.z)
+    }
+
+    update() {
+        this._sphere.position.add(this._velocity);
+    }
+
+
+
+    getSphere(){
+        return this._sphere;
+    }
+
+
+}
+
+const sphereObject = new SphereObject();
+
+const sphere = sphereObject.getSphere();
 
 const referencePlanes = createReferenceFrame()
 
@@ -61,6 +84,11 @@ window.velocity = velocity
 
 //@ts-ignore
 window.THREE = THREE
+
+interface Renderable{
+    update():void
+}
+
 
 
 
