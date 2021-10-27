@@ -4,15 +4,14 @@ import {
     Mesh,
     MeshBasicMaterial,
     PerspectiveCamera,
-    Renderer,
     Scene,
     SphereBufferGeometry,
-    Vector3,
-    WebGLRenderer
+    Vector3
 } from "three";
 import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 import {GUI} from "dat.gui";
 import {createReferenceFrame} from "./createReferenceFrame";
+import {RenderHandler} from "./renderHandler";
 
 
 const camera = new PerspectiveCamera(40, 2, 0.1, 2000);
@@ -64,17 +63,7 @@ scene.add(sphere,referencePlanes.plane1,referencePlanes.plane2);
 }
 
 
-function resizeRendererToDisplaySize(renderer: Renderer) {
-    const canvas = renderer.domElement;
-    const width = canvas.clientWidth;
-    const height = canvas.clientHeight;
-    const needResize = canvas.width !== width || canvas.height !== height;
-    if (needResize) {
-        renderer.setSize(width, height, false);
-    }
 
-    return needResize;
-}
 
 
 const velocity = new Vector3(.1,.1,.1);
@@ -85,57 +74,12 @@ window.velocity = velocity
 //@ts-ignore
 window.THREE = THREE
 
-interface Renderable{
+export interface Renderable{
     update():void
 }
 
 
 
-
-class RenderHandler{
-
-    private _canvas = document.querySelector("#c") as HTMLCanvasElement;
-    private _renderer = new WebGLRenderer({canvas:this._canvas});
-    private readonly _scene;
-    private readonly _camera;
-
-    private _renderables : Renderable[] = []
-
-    constructor(scene: Scene, camera: PerspectiveCamera) {
-        this._scene = scene;
-        this._camera = camera;
-    }
-
-
-     render =()=> {
-
-
-        if (resizeRendererToDisplaySize(this._renderer)) {
-            const canvas = this._renderer.domElement;
-            this._camera.aspect = canvas.clientWidth / canvas.clientHeight;
-            this._camera.updateProjectionMatrix();
-        }
-
-
-
-        this._renderer.render(this._scene, this._camera);
-        this._updateRenderables();
-
-        requestAnimationFrame(this.render);
-    }
-
-    private _updateRenderables(){
-        this._renderables.forEach(renderable =>{
-            renderable.update()
-        })
-    }
-
-    public addRenderable(renderable: Renderable){
-        this._renderables.push(renderable);
-    }
-
-
-}
 
 const renderHandler = new RenderHandler(scene,camera);
 renderHandler.addRenderable(sphereObject);
