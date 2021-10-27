@@ -1,28 +1,40 @@
 import {
     DirectionalLight, Mesh,
     MeshBasicMaterial,
-    PerspectiveCamera,
+    PerspectiveCamera, PlaneBufferGeometry,
     Renderer, Scene,
     SphereBufferGeometry,
     WebGLRenderer
 } from "three";
 import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
+import {GUI} from "dat.gui";
 
 let canvas = document.querySelector("#c") as HTMLCanvasElement;
 const renderer = new WebGLRenderer({canvas});
-const camera = new PerspectiveCamera(40, 2, 0.1, 1000);
+const camera = new PerspectiveCamera(40, 2, 0.1, 2000);
 const controls = new OrbitControls(camera, renderer.domElement);
+const gui = new GUI();
+
 controls.target.set(0, 5, 0);
 controls.update();
 
 
-camera.position.set(0, 20, 100);
+camera.position.set(500, 500, 500);
 camera.lookAt(0, 0, 0);
 
 const scene = new Scene();
 
 const sphere = new Mesh(new SphereBufferGeometry(20, 1000), new MeshBasicMaterial({color: 0x449900}));
-scene.add(sphere);
+const plane1 = new Mesh(new PlaneBufferGeometry(1000,1000,50,50), new MeshBasicMaterial({
+    wireframe:true
+}));
+const plane2 = new Mesh(new PlaneBufferGeometry(1000,1000,50,50), new MeshBasicMaterial({
+    wireframe:true
+}));
+plane2.rotation.x = (Math.PI/2)
+
+
+scene.add(sphere,plane1,plane2);
 
 {
 
