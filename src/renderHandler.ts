@@ -16,7 +16,7 @@ export class RenderHandler {
     }
 
     private _resizeRendererToDisplaySize(renderer: Renderer) {
-        const canvas = renderer.domElement;
+        const canvas = this._canvas;
         const width = canvas.clientWidth;
         const height = canvas.clientHeight;
         const needResize = canvas.width !== width || canvas.height !== height;
@@ -32,7 +32,7 @@ export class RenderHandler {
 
 
         if (this._resizeRendererToDisplaySize(this._renderer)) {
-            const canvas = this._renderer.domElement;
+            const canvas = this._canvas;
             this._camera.aspect = canvas.clientWidth / canvas.clientHeight;
             this._camera.updateProjectionMatrix();
         }
